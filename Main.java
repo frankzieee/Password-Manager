@@ -25,6 +25,7 @@ public class Main {
                     //"select" a File and then tie that to an Account/File and login to it
                    //Std.readLine() --> Account Object
                    String choice2 = StdIn.readLine();
+                   System.out.println("Please enter the name of the file, without .txt");
                    PasswordDatabase.selectFiles(choice2); 
                    //login
                     
@@ -38,11 +39,10 @@ public class Main {
     }
 
         /*
-         * I wanted the possibitly to make multiple Accounts,
-         * for the programm to save them somewhere and give me the opportunity to choose
-         * one and then login etc
-         * 
-         * 
+         * i make a new account via the 1 
+         * a new empty file is created but its linked to the account instance
+         * issue: empty file with no chance to log into it afterwards
+         * solution: as soon as a file is created the password should be written in it
          * 
          */
 

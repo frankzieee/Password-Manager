@@ -24,8 +24,11 @@ public class Account {
 
     public boolean login(String password) {
         if (this.password.equals(password)) {
+           System.out.println("login was successful");
             return true;
+            
         } else
+            System.out.println("password was incorrect, please try again: ");
             return false;
     }
 

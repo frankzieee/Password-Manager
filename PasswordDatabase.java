@@ -27,8 +27,15 @@ public class PasswordDatabase {
         String accountPassword = "";
         // try-with-resources: Scanner will be closed automatically
         try (Scanner myReader = new Scanner(file)) {
+            //case the file is empty
+            if (!myReader.hasNextLine()) {
+                System.out.println("File is empty or corrupted");
+                return "";
+            }
+            //file isnt empty, reads account-password since is the first line of the file
             accountPassword = myReader.nextLine();
             System.out.println("Account password: " + accountPassword);
+            //read the rest of the file, in order: Service, username, password
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
                 int firstIndex = 0;
@@ -36,8 +43,6 @@ public class PasswordDatabase {
                 String serviceString = "";
                 String credentialUsername = "";
                 String credentialPassword = "";
-
-                // first line needs to be read individually
                 for (int i = 0; i < data.length(); i++) {
                     if (data.charAt(i) == ',') {
                         if (cnt == 0) {
@@ -73,15 +78,22 @@ public class PasswordDatabase {
     public void saveToFile(Account account) {
         try {
             FileWriter myWriter = new FileWriter(account.username + ".txt");
-            myWriter.write(account.password); // first line of File ist account password
+            myWriter.write(account.password); // first line of File is account-password
             myWriter.write("\n");
-            for (String i : passwords.keySet()) {
+            // if the passwords key set isnt empty write all services + username + passwords
+            if (!passwords.keySet().isEmpty()){
+                for (String i : passwords.keySet()) {
                 myWriter.write(i + "," + passwords.get(i).username + "," + passwords.get(i).password);
                 // i = service, Credentials username, Credentials password
                 myWriter.write("\n");
             }
             myWriter.close(); // must close manually
             System.out.println("Successfully wrote to the file.");
+            }
+            else {
+                myWriter.close();
+                return; 
+            }
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
@@ -97,10 +109,14 @@ public class PasswordDatabase {
             System.out.println("----------------------");
             for (File file : files) {
                 String fileString = file.getName();
-                while (fileString.contains(".txt")) {
+                if (fileString.endsWith(".txt")) {
                     System.out.println(file.getName());
                 }
             }
+        }
+        else {
+            System.out.println("first file has been created: ");
+            System.out.println(files);
         }
 
     }
@@ -112,7 +128,8 @@ public class PasswordDatabase {
         if (file.exists()) {
             PasswordDatabase db = new PasswordDatabase();
             String account_password = db.loadFromFile(file);
-            Account account = new Account(choice, account_password); // PASSWORD INSTEAD OF CHOICE
+            Account account = new Account(choice, account_password); 
+            db.saveToFile(account);
             System.out.println("Account selected:");
             System.out.println("Username: " + account.username + ": ");
             System.out.println("please enter the password: ");
@@ -125,4 +142,3 @@ public class PasswordDatabase {
     }
 }
 
-// i need to fix this right now... maybe later sometimes

@@ -9,6 +9,7 @@ public class Account {
         this.username = username;
         this.password = password;
         //create File with every new Account Object
+        this.password.trim();
         try {
             File myObj = new File(username + ".txt"); // Create File object
             if (myObj.createNewFile()) { // Try to create the file
@@ -23,14 +24,22 @@ public class Account {
     }
 
     public boolean login(String password) {
-        if (this.password.equals(password)) {
-           System.out.println("login was successful");
+        password.trim();
+        if (this.password.trim().equals(password.trim())) {
+            System.out.println("login was successful");
             return true;
-            
-        } else
-            System.out.println("password was incorrect, please try again: ");
-            return false;
+        }
+        else {
+            System.out.println("login failed, password was incorrect, please try again: ");
+              return false; 
+        }
     }
+}        
+//login isnt working doesnt recognize the password
+//once logged in print all passwords (stored in db)
+//then again allow to select etc
+//eventually encrypt absolutely everything
+//in Strings add the space bar out
 
     
-}
+

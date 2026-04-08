@@ -15,9 +15,12 @@ public class Main {
                 System.out.println("Please enter Password");
                 String password = StdIn.readLine();
                 Account account = new Account(username, password);
+                PasswordDatabase db = new PasswordDatabase(); 
+                db.saveToFile(account);
+                // here is the mistake saveToFile(Account);
                 //-----------------------------------------------------
                 //here i want to immediately go to the things that happen in if "2"
-                part2 = true;  
+                part2 = true;   
             } 
 
             if (choice.equals("2") || part2) {

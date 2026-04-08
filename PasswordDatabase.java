@@ -129,12 +129,14 @@ public class PasswordDatabase {
             PasswordDatabase db = new PasswordDatabase();
             String account_password = db.loadFromFile(file);
             Account account = new Account(choice, account_password); 
-            db.saveToFile(account);
             System.out.println("Account selected:");
             System.out.println("Username: " + account.username + ": ");
             System.out.println("please enter the password: ");
             String entered_password = StdIn.readLine();
-            account.login(entered_password);
+            while (!account.login(entered_password)){
+                entered_password = StdIn.readLine();
+            } 
+            
         } else {
             System.out.println("the file does not exist or was written incorrecly: Please try again");
 
